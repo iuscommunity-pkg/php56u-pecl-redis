@@ -18,8 +18,8 @@
 
 Summary:       Extension for communicating with the Redis key-value store
 Name:          %{php_base}-pecl-redis
-Version:       2.2.5
-Release:       2.ius%{?dist}
+Version:       2.2.7
+Release:       1.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/redis
@@ -239,6 +239,9 @@ fi
 
 
 %changelog
+* Wed Mar 04 2015 Carl George <carl.george@rackspace.com> - 2.2.7-1.ius
+- Latest upstream
+
 * Thu Oct 23 2014 Ben Harper <ben.harper@rackspace.com> - 2.2.5-2.ius
 - porting from php55u-pecl-redis
 
