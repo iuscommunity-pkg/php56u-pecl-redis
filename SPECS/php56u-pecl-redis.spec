@@ -55,9 +55,11 @@ Provides:      %{php_base}-pecl(%{pecl_name}) = %{version}
 Provides:      php-pecl(%{pecl_name})%{?_isa} = %{version}
 Provides:      %{php_base}-pecl(%{pecl_name})%{?_isa} = %{version}
 
+%if 0%{?fedora} < 20 && 0%{?rhel} < 7
 # Filter private shared object
 %{?filter_provides_in: %filter_provides_in %{_libdir}/.*\.so$}
 %{?filter_setup}
+%endif
 
 
 %description
@@ -242,6 +244,7 @@ fi
 - Remove Source1, tests are now included in Source0
 - Add pear as a build requirement
 - Only provide version for stock name, not release
+- Wrap filter provides in conditional
 
 * Tue Mar 10 2015 Ben Harper <ben.harper@rackspace.com> - 2.2.7-2.ius
 - Rebuilding against php56u-5.6.6-2.ius as it is now using bundled PCRE.
