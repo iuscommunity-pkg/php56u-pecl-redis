@@ -28,6 +28,7 @@ URL:           http://pecl.php.net/package/redis
 Source0:       http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
 BuildRequires: %{php_base}-devel
+BuildRequires: %{php_base}-pear
 BuildRequires: %{php_base}-pecl-igbinary-devel
 # to run Test suite
 %if %{with_tests}
@@ -239,6 +240,7 @@ fi
 %changelog
 * Sat Feb 13 2016 Carl George <carl.george@rackspace.com> - 2.2.7-3.ius
 - Remove Source1, tests are now included in Source0
+- Add pear as a build requirement
 
 * Tue Mar 10 2015 Ben Harper <ben.harper@rackspace.com> - 2.2.7-2.ius
 - Rebuilding against php56u-5.6.6-2.ius as it is now using bundled PCRE.
