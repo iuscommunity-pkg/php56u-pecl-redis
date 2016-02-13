@@ -227,6 +227,7 @@ fi
 
 
 %files
+%{?_licensedir:%license nts/COPYING}
 %doc %{pecl_docdir}/%{pecl_name}
 %{pecl_xmldir}/%{name}.xml
 
@@ -245,6 +246,7 @@ fi
 - Add pear as a build requirement
 - Only provide version for stock name, not release
 - Wrap filter provides in conditional
+- Mark COPYING file with %%license when possible
 
 * Tue Mar 10 2015 Ben Harper <ben.harper@rackspace.com> - 2.2.7-2.ius
 - Rebuilding against php56u-5.6.6-2.ius as it is now using bundled PCRE.
