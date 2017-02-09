@@ -11,7 +11,7 @@
 
 %global pecl_name  redis
 %global with_zts   0%{?__ztsphp:1}
-%global with_tests 0
+%global with_tests 1
 # after 40-igbinary
 %global ini_name    50-%{pecl_name}.ini
 
@@ -19,8 +19,8 @@
 
 Summary:       Extension for communicating with the Redis key-value store
 Name:          %{php_base}-pecl-redis
-Version:       2.2.8
-Release:       2.ius%{?dist}
+Version:       3.1.1
+Release:       1.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
 URL:           http://pecl.php.net/package/redis
@@ -184,25 +184,18 @@ sed -e s/testPubSub/SKIP_testPubSub/ \
     -i TestRedis.php
 
 # Launch redis server
-mkdir -p {run,log,lib}/redis
-sed -e "s:/^pidfile.*$:/pidfile $PWD/run/redis.pid:" \
-    -e "s:/var:$PWD:" \
-    -e "/daemonize/s/no/yes/" \
-    /etc/redis.conf >redis.conf
-# port number to allow 32/64 build at same time
-# and avoid conflict with a possible running server
-%if 0%{?__isa_bits}
-port=$(expr %{__isa_bits} + 6350)
-%else
-%ifarch x86_64
-port=6414
-%else
-port=6382
-%endif
-%endif
-sed -e "s/6379/$port/" -i redis.conf
-sed -e "s/6379/$port/" -i TestRedis.php
-%{_bindir}/redis-server ./redis.conf
+mkdir -p data
+pidfile=$PWD/redis.pid
+# use a random port to avoid conflicts
+port=%(shuf -i 6000-6999 -n 1)
+sed -e "s/6379/$port/" -i *.php
+%{_bindir}/redis-server   \
+    --bind      127.0.0.1      \
+    --port      $port          \
+    --daemonize yes            \
+    --logfile   $PWD/redis.log \
+    --dir       $PWD/data      \
+    --pidfile $pidfile
 
 # Run the test Suite
 ret=0
@@ -212,8 +205,8 @@ ret=0
     TestRedis.php || ret=1
 
 # Cleanup
-if [ -f run/redis.pid ]; then
-   kill $(cat run/redis.pid)
+if [ -f $pidfile ]; then
+   %{_bindir}/redis-cli -p $port shutdown
 fi
 
 exit $ret
@@ -252,6 +245,12 @@ fi
 
 
 %changelog
+* Thu Feb 09 2017 Ben Harper <ben.harper@rackspace.com> - 3.1.1-1.ius
+- Latest upstream
+- changes to Launch redis server and Cleanup from Fedora and php70u-pecl-redis:
+  http://pkgs.fedoraproject.org/cgit/rpms/php-pecl-redis.git/commit/?id=676cb4cd0326b8e5e9cf49ed3c7cfef31d804543
+  https://github.com/iuscommunity-pkg/php70u-pecl-redis/commit/576fa96334ca06b3135bd2b9d058dbaf67086406
+
 * Thu Jun 16 2016 Ben Harper <ben.harper@rackspace.com> -  2.2.8-2.ius
 - update filters to include zts
 
