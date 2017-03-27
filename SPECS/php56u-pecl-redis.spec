@@ -19,7 +19,7 @@
 
 Summary:       Extension for communicating with the Redis key-value store
 Name:          %{php_base}-pecl-redis
-Version:       3.1.1
+Version:       3.1.2
 Release:       1.ius%{?dist}
 License:       PHP
 Group:         Development/Languages
@@ -245,6 +245,9 @@ fi
 
 
 %changelog
+* Mon Mar 27 2017 Ben Harper <ben.harper@rackspace.com> - 3.1.2-1.ius
+- Latest upstream
+
 * Thu Feb 09 2017 Ben Harper <ben.harper@rackspace.com> - 3.1.1-1.ius
 - Latest upstream
 - changes to Launch redis server and Cleanup from Fedora and php70u-pecl-redis:
