@@ -17,6 +17,7 @@
 
 %bcond_without zts
 %bcond_without tests
+%bcond_without igbinary
 
 Summary:       Extension for communicating with the Redis key-value store
 Name:          %{php_base}-pecl-redis
@@ -29,12 +30,12 @@ Source0:       http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
 BuildRequires: %{php_base}-devel
 BuildRequires: %{php_base}-pear
-BuildRequires: %{php_base}-pecl-igbinary-devel
+%{?with_igbinary:BuildRequires: %{php_base}-pecl-igbinary-devel}
 %{?with_tests:BuildRequires: redis >= 2.6}
 
 Requires:      %{php_base}(zend-abi) = %{php_zend_api}
 Requires:      %{php_base}(api) = %{php_core_api}
-Requires:      %{php_base}-pecl-igbinary%{?_isa}
+%{?with_igbinary:Requires: %{php_base}-pecl-igbinary%{?_isa}}
 
 Requires(post): %{php_base}-pear
 Requires(postun): %{php_base}-pear
@@ -111,7 +112,7 @@ pushd nts
 %configure \
     --enable-redis \
     --enable-redis-session \
-    --enable-redis-igbinary \
+%{?with_igbinary: --enable-redis-igbinary} \
     --with-php-config=%{_bindir}/php-config
 make %{?_smp_mflags}
 popd
@@ -122,7 +123,7 @@ pushd zts
 %configure \
     --enable-redis \
     --enable-redis-session \
-    --enable-redis-igbinary \
+%{?with_igbinary: --enable-redis-igbinary} \
     --with-php-config=%{_bindir}/zts-php-config
 make %{?_smp_mflags}
 popd
@@ -153,13 +154,13 @@ done
 %check
 # simple module load test
 %{__php} --no-php-ini \
-    --define extension=igbinary.so \
+%{?with_igbinary: --define extension=igbinary.so} \
     --define extension=%{buildroot}%{php_extdir}/%{pecl_name}.so \
     --modules | grep %{pecl_name}
 
 %if %{with zts}
 %{__ztsphp} --no-php-ini \
-    --define extension=igbinary.so \
+%{?with_igbinary: --define extension=igbinary.so} \
     --define extension=%{buildroot}%{php_ztsextdir}/%{pecl_name}.so \
     --modules | grep %{pecl_name}
 %endif
@@ -194,7 +195,7 @@ sed -e "s/6379/$port/" -i *.php
 # Run the test Suite
 ret=0
 %{__php} --no-php-ini \
-    --define extension=igbinary.so \
+%{?with_igbinary: --define extension=igbinary.so} \
     --define extension=%{buildroot}%{php_extdir}/%{pecl_name}.so \
     TestRedis.php || ret=1
 
@@ -241,6 +242,7 @@ fi
 %changelog
 * Thu Jul 27 2017 Carl George <carl@george.computer> - 3.1.3-2.ius
 - Convert with_zts and with_tests macros to conditionals
+- Add igbinary conditional
 
 * Mon Jul 17 2017 Ben Harper <ben.harper@rackspace.com> - 3.1.3-1.ius
 - Latest upstream
