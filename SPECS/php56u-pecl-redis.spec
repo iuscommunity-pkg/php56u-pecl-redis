@@ -103,6 +103,17 @@ extension = %{pecl_name}.so
 
 ;session.save_handler = %{pecl_name}
 ;session.save_path = "tcp://host1:6379?weight=1, tcp://host2:6379?weight=2&timeout=2.5, tcp://host3:6379?weight=2"
+
+; Configuration
+;redis.arrays.names = ''
+;redis.arrays.hosts = ''
+;redis.arrays.previous = ''
+;redis.arrays.functions = ''
+;redis.arrays.index = ''
+;redis.arrays.autorehash = ''
+;redis.clusters.seeds = ''
+;redis.clusters.timeout = ''
+;redis.clusters.read_timeout = ''
 EOF
 
 
