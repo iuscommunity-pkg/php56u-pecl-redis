@@ -164,16 +164,6 @@ popd
 %if %{with tests}
 pushd NTS/tests
 
-# this test requires redis >= 2.6.9
-# https://github.com/nicolasff/phpredis/pull/333
-sed -e s/testClient/SKIP_testClient/ \
-    -i TestRedis.php
-
-# this test requires redis >= 2.8.0
-# self-described as "problematic"
-sed -e s/testPubSub/SKIP_testPubSub/ \
-    -i TestRedis.php
-
 # Launch redis server
 mkdir -p data
 pidfile=$PWD/redis.pid
@@ -187,7 +177,7 @@ port=%(shuf -i 6000-6999 -n 1)
     --dir       $PWD/data      \
     --pidfile   $pidfile
 
-sed -e "s/6379/$port/" -i *.php
+sed -e "s/6379/$port/" -i RedisTest.php
 
 # Run the test Suite
 ret=0
@@ -237,6 +227,7 @@ fi
 * Thu Jul 27 2017 Carl George <carl@george.computer> - 3.1.3-2.ius
 - Convert with_zts and with_tests macros to conditionals
 - Add igbinary conditional
+- Sync test suite with Fedora
 
 * Mon Jul 17 2017 Ben Harper <ben.harper@rackspace.com> - 3.1.3-1.ius
 - Latest upstream
