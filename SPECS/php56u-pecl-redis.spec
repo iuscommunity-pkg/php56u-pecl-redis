@@ -18,8 +18,8 @@
 
 Summary:        Extension for communicating with the Redis key-value store
 Name:           %{php}-pecl-%{pecl_name}
-Version:        3.1.3
-Release:        2.ius%{?dist}
+Version:        3.1.4
+Release:        1.ius%{?dist}
 License:        PHP
 Group:          Development/Languages
 URL:            http://pecl.php.net/package/%{pecl_name}
@@ -235,6 +235,9 @@ fi
 
 
 %changelog
+* Wed Sep 27 2017 Ben Harper <ben.harper@rackspace.com> - 3.1.4-1.ius
+- Latest upstream
+
 * Thu Jul 27 2017 Carl George <carl@george.computer> - 3.1.3-2.ius
 - Convert with_zts and with_tests macros to conditionals
 - Add igbinary conditional
