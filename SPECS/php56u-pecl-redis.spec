@@ -1,5 +1,5 @@
 # IUS spec file for php56u-pecl-redis, forked from:
-
+#
 # Fedora spec file for php-pecl-redis
 #
 # Copyright (c) 2012-2013 Remi Collet
@@ -21,7 +21,6 @@ Name:           %{php}-pecl-%{pecl_name}
 Version:        3.1.4
 Release:        1.ius%{?dist}
 License:        PHP
-Group:          Development/Languages
 URL:            http://pecl.php.net/package/%{pecl_name}
 Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
 
@@ -143,14 +142,14 @@ popd
 
 %install
 make -C NTS install INSTALL_ROOT=%{buildroot}
-install -D -m 644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
+install -D -p -m 644 %{ini_name} %{buildroot}%{php_inidir}/%{ini_name}
 
 %if %{with zts}
 make -C ZTS install INSTALL_ROOT=%{buildroot}
-install -D -m 644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
+install -D -p -m 644 %{ini_name} %{buildroot}%{php_ztsinidir}/%{ini_name}
 %endif
 
-install -D -m 644 package.xml %{buildroot}%{pecl_xmldir}/%{pecl_name}.xml
+install -D -p -m 644 package.xml %{buildroot}%{pecl_xmldir}/%{pecl_name}.xml
 
 pushd NTS
 for i in $(grep 'role="doc"' ../package.xml | sed -e 's/^.*name="//;s/".*$//')
