@@ -18,13 +18,11 @@
 
 Summary:        Extension for communicating with the Redis key-value store
 Name:           %{php}-pecl-%{pecl_name}
-Version:        3.1.4
-Release:        2.ius%{?dist}
+Version:        3.1.5
+Release:        1.ius%{?dist}
 License:        PHP
 URL:            http://pecl.php.net/package/%{pecl_name}
 Source0:        http://pecl.php.net/get/%{pecl_name}-%{version}.tgz
-# https://github.com/phpredis/phpredis/issues/1210
-Patch0:         fix-segfault.patch
 
 BuildRequires:  %{php}-devel
 BuildRequires:  %{php}-pear
@@ -81,10 +79,6 @@ sed -e 's/role="test"/role="src"/' \
 
 # rename source folder
 mv %{pecl_name}-%{version} NTS
-
-pushd NTS
-%patch0 -p 1
-popd
 
 # Sanity check, really often broken
 extver=$(sed -n '/#define PHP_REDIS_VERSION/{s/.* "//;s/".*$//;p}' NTS/php_redis.h)
@@ -240,6 +234,10 @@ fi
 
 
 %changelog
+* Tue Jan 02 2018 Ben Harper <ben.harper@rackspace.com> - 3.1.5-1.ius
+- Latest upstream
+- Remove Patch0, fixed upstream
+
 * Wed Nov 08 2017 Carl George <carl@george.computer> - 3.1.4-2.ius
 - Backport upstream fix for https://github.com/phpredis/phpredis/issues/1210
 
