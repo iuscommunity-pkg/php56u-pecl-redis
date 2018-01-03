@@ -18,7 +18,7 @@
 
 Summary:        Extension for communicating with the Redis key-value store
 Name:           %{php}-pecl-%{pecl_name}
-Version:        3.1.5
+Version:        3.1.6
 Release:        1.ius%{?dist}
 License:        PHP
 URL:            http://pecl.php.net/package/%{pecl_name}
@@ -234,6 +234,9 @@ fi
 
 
 %changelog
+* Wed Jan 03 2018 Ben Harper <ben.harper@rackspace.com> - 3.1.6-1.ius
+- Latest upstream
+
 * Tue Jan 02 2018 Ben Harper <ben.harper@rackspace.com> - 3.1.5-1.ius
 - Latest upstream
 - Remove Patch0, fixed upstream
